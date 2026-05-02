@@ -52,9 +52,11 @@
     "@angular/language-service": "^20.0.0",
     "@capacitor/cli": "8.3.1",
     "@ionic/angular-toolkit": "^12.0.0",
+    "@ionic/cordova-builders": "^12.3.0",
     "@types/jasmine": "~5.1.0",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
     "@typescript-eslint/parser": "^8.18.0",
+    "cordova-android": "^15.0.0",
     "eslint": "^9.16.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsdoc": "^48.2.1",
@@ -68,5 +70,10 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "typescript": "~5.9.0"
   },
-  "description": "To-Do List app built with Ionic 8 and Angular 20"
+  "description": "To-Do List app built with Ionic 8 and Angular 20",
+  "cordova": {
+    "platforms": [
+      "android"
+    ]
+  }
 }

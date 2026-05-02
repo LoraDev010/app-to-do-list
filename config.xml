@@ -1,33 +1,33 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.lora.todolist" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-  <name>To-Do List</name>
-  <description>Aplicación de gestión de tareas con categorías y Firebase Remote Config.</description>
-  <author email="devissonvasquez99@gmail.com" href="https://github.com/LoraDev010">LoraDev010</author>
-  <content src="index.html" />
-  <allow-intent href="http://*/*" />
-  <allow-intent href="https://*/*" />
-  <allow-intent href="tel:*" />
-  <allow-intent href="sms:*" />
-  <allow-intent href="mailto:*" />
-  <allow-intent href="geo:*" />
-  <platform name="android">
-    <allow-intent href="market:*" />
-    <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/android/splash/drawable-port-mdpi-screen.png" />
-  </platform>
-  <platform name="ios">
-    <allow-intent href="itms:*" />
-    <allow-intent href="itms-apps:*" />
-  </platform>
-  <preference name="ScrollEnabled" value="false" />
-  <preference name="BackupWebStorage" value="none" />
-  <preference name="SplashMaintainAspectRatio" value="true" />
-  <preference name="FadeSplashScreenDuration" value="300" />
-  <preference name="SplashShowOnlyFirstTime" value="false" />
-  <preference name="SplashScreen" value="screen" />
-  <preference name="SplashScreenDelay" value="3000" />
-  <preference name="StatusBarOverlaysWebView" value="false" />
-  <preference name="StatusBarStyle" value="lightcontent" />
-  <preference name="DisableDeploy" value="true" />
-  <preference name="android-targetSdkVersion" value="34" />
-  <preference name="android-minSdkVersion" value="22" />
+    <name>To-Do List</name>
+    <description>Aplicación de gestión de tareas con categorías y Firebase Remote Config.</description>
+    <author email="andreslora010@gmail.com" href="https://github.com/LoraDev010">LoraDev010</author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/android/splash/drawable-port-mdpi-screen.png" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+    <preference name="ScrollEnabled" value="false" />
+    <preference name="BackupWebStorage" value="none" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
+    <preference name="FadeSplashScreenDuration" value="300" />
+    <preference name="SplashShowOnlyFirstTime" value="false" />
+    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="DisableDeploy" value="true" />
+    <preference name="android-targetSdkVersion" value="34" />
+    <preference name="android-minSdkVersion" value="22" />
 </widget>
