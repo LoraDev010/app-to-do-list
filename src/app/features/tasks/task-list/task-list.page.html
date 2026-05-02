@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Mis Tareas
+      @if (taskService.pendingCount() > 0) {
+        <ion-badge color="primary">{{ taskService.pendingCount() }}</ion-badge>
+      }
+    </ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <div class="filter-chips">
+      <ion-chip
+        [class.chip-active]="taskService.activeFilter() === null"
+        (click)="setFilter(null)"
+      >
+        <ion-label>Todas</ion-label>
+      </ion-chip>
+      @for (cat of categoryService.categories(); track cat.id) {
+        <ion-chip
+          [class.chip-active]="taskService.activeFilter() === cat.id"
+          [style.--color]="cat.color"
+          [style.--background]="cat.color + '22'"
+          (click)="setFilter(cat.id)"
+        >
+          <span class="cat-dot" [style.background]="cat.color"></span>
+          <ion-label>{{ cat.name }}</ion-label>
+        </ion-chip>
+      }
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (taskService.filteredTasks().length === 0) {
+    <app-empty-state
+      icon="clipboard-outline"
+      title="Sin tareas"
+      subtitle="Toca + para agregar tu primera tarea"
+    ></app-empty-state>
+  } @else {
+    <cdk-virtual-scroll-viewport itemSize="72" class="task-scroll">
+      @for (task of taskService.filteredTasks(); track task.id) {
+        <app-task-item
+          [task]="task"
+          (toggled)="taskService.toggle($event)"
+          (edited)="openTaskForm($event)"
+          (deleted)="confirmDelete($event)"
+        ></app-task-item>
+      }
+    </cdk-virtual-scroll-viewport>
+  }
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openTaskForm()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

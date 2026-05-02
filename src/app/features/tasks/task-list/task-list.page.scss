@@ -1,0 +1,35 @@
+.filter-chips {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  padding: 0 8px 8px;
+  gap: 4px;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.chip-active {
+  --background: var(--ion-color-primary);
+  --color: white;
+}
+
+.cat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+.task-scroll {
+  height: calc(100vh - 160px);
+  padding-bottom: 80px;
+}
+
+ion-badge {
+  margin-left: 8px;
+  vertical-align: middle;
+}
