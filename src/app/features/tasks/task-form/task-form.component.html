@@ -20,6 +20,7 @@
         formControlName="title"
         placeholder="¿Qué necesitas hacer?"
         clearInput
+        (ionInput)="form.get('title')?.setValue($any($event).detail.value)"
       ></ion-input>
     </ion-item>
 

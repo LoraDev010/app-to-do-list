@@ -4,6 +4,7 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonList,
   IonFab,
   IonFabButton,
   IonIcon,
@@ -13,7 +14,6 @@ import {
   ModalController,
   AlertController,
 } from '@ionic/angular/standalone';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { addIcons } from 'ionicons';
 import { add, filterOutline, checkmarkCircle } from 'ionicons/icons';
 
@@ -35,13 +35,13 @@ import { EmptyStateComponent } from '../../../shared/components/empty-state/empt
     IonToolbar,
     IonTitle,
     IonContent,
+    IonList,
     IonFab,
     IonFabButton,
     IonIcon,
     IonChip,
     IonLabel,
     IonBadge,
-    ScrollingModule,
     TaskItemComponent,
     EmptyStateComponent,
   ],

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   IonHeader,
@@ -41,7 +41,7 @@ import { TaskService } from '../../../core/services/task.service';
   ],
 })
 export class TaskFormComponent implements OnInit {
-  task = input<Task | undefined>(undefined);
+  @Input() task: Task | undefined;
 
   protected categoryService = inject(CategoryService);
   protected remoteConfig = inject(RemoteConfigService);
@@ -61,28 +61,26 @@ export class TaskFormComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    const t = this.task();
-    if (t) {
+    if (this.task) {
       this.form.patchValue({
-        title: t.title,
-        categoryId: t.categoryId,
-        priority: t.priority,
+        title: this.task.title,
+        categoryId: this.task.categoryId,
+        priority: this.task.priority,
       });
     }
   }
 
   get isEditing(): boolean {
-    return !!this.task();
+    return !!this.task;
   }
 
   async save(): Promise<void> {
     if (this.form.invalid) return;
 
     const { title, categoryId, priority } = this.form.value;
-    const t = this.task();
 
-    if (t) {
-      await this.taskService.update(t.id, title!, categoryId ?? null, priority as any ?? null);
+    if (this.task) {
+      await this.taskService.update(this.task.id, title!, categoryId ?? null, priority as any ?? null);
     } else {
       await this.taskService.add(title!, categoryId ?? null, priority as any ?? null);
     }

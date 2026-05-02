@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject, signal, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   IonHeader,
@@ -41,7 +41,7 @@ const PRESET_COLORS = [
   ],
 })
 export class CategoryFormComponent implements OnInit {
-  category = input<Category | undefined>(undefined);
+  @Input() category: Category | undefined;
 
   protected categoryService = inject(CategoryService);
   private modalCtrl = inject(ModalController);
@@ -54,15 +54,14 @@ export class CategoryFormComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    const cat = this.category();
-    if (cat) {
-      this.form.patchValue({ name: cat.name });
-      this.selectedColor.set(cat.color);
+    if (this.category) {
+      this.form.patchValue({ name: this.category.name });
+      this.selectedColor.set(this.category.color);
     }
   }
 
   get isEditing(): boolean {
-    return !!this.category();
+    return !!this.category;
   }
 
   selectColor(color: string): void {
@@ -74,10 +73,9 @@ export class CategoryFormComponent implements OnInit {
 
     const name = this.form.value.name!;
     const color = this.selectedColor();
-    const cat = this.category();
 
-    if (cat) {
-      await this.categoryService.update(cat.id, name, color);
+    if (this.category) {
+      await this.categoryService.update(this.category.id, name, color);
     } else {
       await this.categoryService.add(name, color);
     }

@@ -20,6 +20,7 @@
         formControlName="name"
         placeholder="Ej: Trabajo, Personal..."
         clearInput
+        (ionInput)="form.get('name')?.setValue($any($event).detail.value)"
       ></ion-input>
     </ion-item>
 
