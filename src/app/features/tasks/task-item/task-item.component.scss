@@ -1,0 +1,43 @@
+.task-item {
+  --padding-start: 12px;
+  --inner-padding-end: 12px;
+  --border-radius: 12px;
+  margin: 4px 16px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+
+  &.completed .task-title {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+}
+
+.task-title {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  white-space: normal;
+}
+
+.task-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.category-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.priority-badge {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 20px;
+
+  &.priority-high { --background: #ef4444; }
+  &.priority-medium { --background: #f59e0b; }
+  &.priority-low { --background: #22c55e; }
+}

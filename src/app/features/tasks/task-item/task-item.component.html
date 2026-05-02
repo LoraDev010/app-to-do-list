@@ -1,0 +1,35 @@
+<ion-item-sliding>
+  <ion-item [class.completed]="task().completed" lines="none" class="task-item">
+    <ion-checkbox
+      slot="start"
+      [checked]="task().completed"
+      (ionChange)="toggled.emit(task().id)"
+    ></ion-checkbox>
+
+    <ion-label>
+      <p class="task-title">{{ task().title }}</p>
+      <div class="task-badges">
+        @if (categoryService.getById(task().categoryId!); as cat) {
+          <ion-badge
+            class="category-badge"
+            [style.background]="cat.color"
+          >{{ cat.name }}</ion-badge>
+        }
+        @if (remoteConfig.enableTaskPriority() && task().priority) {
+          <ion-badge [class]="'priority-badge priority-' + task().priority">
+            {{ priorityLabels[task().priority!] }}
+          </ion-badge>
+        }
+      </div>
+    </ion-label>
+  </ion-item>
+
+  <ion-item-options side="end">
+    <ion-item-option color="primary" (click)="edited.emit(task())">
+      <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+    </ion-item-option>
+    <ion-item-option color="danger" (click)="deleted.emit(task().id)">
+      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+    </ion-item-option>
+  </ion-item-options>
+</ion-item-sliding>
