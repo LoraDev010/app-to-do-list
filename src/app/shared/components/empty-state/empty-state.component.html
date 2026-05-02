@@ -1,0 +1,9 @@
+<div class="empty-state">
+  <ion-icon [name]="icon()"></ion-icon>
+  <ion-text>
+    <h3>{{ title() }}</h3>
+    @if (subtitle()) {
+      <p>{{ subtitle() }}</p>
+    }
+  </ion-text>
+</div>
