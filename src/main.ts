@@ -1,7 +1,7 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { PreloadAllModules, RouteReuseStrategy, provideRouter, withPreloading } from '@angular/router';
 import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalone';
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, APP_INITIALIZER } from '@angular/core';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { AppComponent } from './app/app.component';
@@ -15,9 +15,10 @@ bootstrapApplication(AppComponent, {
     provideRouter(routes, withPreloading(PreloadAllModules)),
     importProvidersFrom(IonicStorageModule.forRoot()),
     {
-      provide: 'APP_INIT',
-      useFactory: (rc: RemoteConfigService) => rc.initialize(),
+      provide: APP_INITIALIZER,
+      useFactory: (rc: RemoteConfigService) => () => rc.initialize(),
       deps: [RemoteConfigService],
+      multi: true,
     },
   ],
 }).catch(err => console.error(err));
