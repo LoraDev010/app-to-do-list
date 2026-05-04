@@ -26,7 +26,10 @@
 
 .task-scroll {
   height: calc(100vh - 160px);
-  padding-bottom: 80px;
+
+  .cdk-virtual-scroll-content-wrapper {
+    padding-bottom: 80px;
+  }
 }
 
 ion-badge {

@@ -39,16 +39,15 @@
       subtitle="Toca + para agregar tu primera tarea"
     ></app-empty-state>
   } @else {
-    <ion-list>
-      @for (task of taskService.filteredTasks(); track task.id) {
-        <app-task-item
-          [task]="task"
-          (toggled)="taskService.toggle($event)"
-          (edited)="openTaskForm($event)"
-          (deleted)="confirmDelete($event)"
-        ></app-task-item>
-      }
-    </ion-list>
+    <cdk-virtual-scroll-viewport [itemSize]="itemSize" class="task-scroll">
+      <app-task-item
+        *cdkVirtualFor="let task of taskService.filteredTasks(); trackBy: trackById"
+        [task]="task"
+        (toggled)="taskService.toggle($event)"
+        (edited)="openTaskForm($event)"
+        (deleted)="confirmDelete($event)"
+      ></app-task-item>
+    </cdk-virtual-scroll-viewport>
   }
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
