@@ -20,6 +20,7 @@ import { addIcons } from 'ionicons';
 import { add, createOutline, trashOutline, folderOpenOutline } from 'ionicons/icons';
 
 import { CategoryService } from '../../../core/services/category.service';
+import { TaskService } from '../../../core/services/task.service';
 import { Category } from '../../../core/models/category.model';
 import { CategoryFormComponent } from '../category-form/category-form.component';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
@@ -49,6 +50,7 @@ import { EmptyStateComponent } from '../../../shared/components/empty-state/empt
 })
 export class CategoryListPage {
   protected categoryService = inject(CategoryService);
+  private taskService = inject(TaskService);
   private modalCtrl = inject(ModalController);
   private alertCtrl = inject(AlertController);
 
@@ -79,7 +81,10 @@ export class CategoryListPage {
         {
           text: 'Eliminar',
           role: 'destructive',
-          handler: () => this.categoryService.remove(catId),
+          handler: () => {
+            this.taskService.clearCategoryFromTasks(catId);
+            this.categoryService.remove(catId);
+          },
         },
       ],
     });
