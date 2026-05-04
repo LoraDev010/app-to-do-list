@@ -2,6 +2,13 @@
 
 Aplicación de gestión de tareas con categorías, filtros y feature flags via Firebase Remote Config. Construida con Ionic 8 y Angular 20 usando standalone components.
 
+## Descarga
+
+| Plataforma | Enlace |
+|---|---|
+| Android (APK debug) | [Descargar v1.0.0](https://github.com/LoraDev010/app-to-do-list/releases/download/v1.0.0/todo-list-v1.0.0.apk) |
+| iOS (IPA) | Requiere macOS + Xcode — ver sección [Compilar para iOS](#compilar-para-ios-requiere-macos--xcode) |
+
 ---
 
 ## Tecnologías
@@ -25,6 +32,18 @@ Aplicación de gestión de tareas con categorías, filtros y feature flags via F
 - **Feature flag**: `enable_task_priority` — activa/desactiva campo de prioridad en tareas
 - **Persistencia**: todas las tareas y categorías se guardan localmente
 - **Dark mode**: soporte automático según preferencia del sistema
+
+---
+
+## Capturas de pantalla
+
+| Lista de tareas | Filtro por categoría |
+|---|---|
+| ![Lista de tareas](docs/screenshots/screenshot-tasks.png) | ![Filtro activo](docs/screenshots/screenshot-filter.png) |
+
+| Formulario de tarea | Selección de categoría | Lista de categorías |
+|---|---|---|
+| ![Formulario](docs/screenshots/screenshot-form.png) | ![Categorías en form](docs/screenshots/screenshot-form-categories.png) | ![Categorías](docs/screenshots/screenshot-categories.png) |
 
 ---
 
