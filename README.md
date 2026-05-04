@@ -262,7 +262,7 @@ Cuando se cambia el flag en Firebase Console y la app lo detecta (al iniciar o t
 | Técnica | Implementación | Beneficio |
 |---|---|---|
 | **OnPush CD** | Todos los componentes | Angular solo re-renderiza cuando signals o inputs cambian |
-| **track en @for** | `@for (task of tasks; track task.id)` | Angular reutiliza DOM existente, solo actualiza lo que cambió |
+| **Virtual Scroll (CDK)** | `cdk-virtual-scroll-viewport` en lista de tareas | Solo renderiza los items visibles en pantalla — escala a miles de tareas sin degradar performance |
 | **Signals + computed()** | `signal<Task[]>([])`, `computed()` | Actualizaciones granulares sin Zone.js overhead |
 | **Lazy Loading** | `loadComponent: () => import(...)` | Bundle inicial pequeño, carga rutas bajo demanda |
 | **PreloadAllModules** | `withPreloading(PreloadAllModules)` | Precarga rutas en background tras carga inicial |
@@ -284,10 +284,6 @@ Cuando se cambia el flag en Firebase Console y la app lo detecta (al iniciar o t
 
 ---
 
-## Rama de desarrollo
+## Versionamiento
 
-```
-clean-history
-```
-
-El commit inicial incluye la estructura base completa del proyecto.
+Desarrollo realizado en rama `clean-history`, mergeada a `main` vía Pull Request. El historial de commits refleja el progreso incremental de la implementación.

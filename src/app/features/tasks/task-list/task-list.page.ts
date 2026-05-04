@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import {
   IonHeader,
   IonToolbar,
   IonTitle,
   IonContent,
-  IonList,
   IonFab,
   IonFabButton,
   IonIcon,
@@ -31,11 +31,11 @@ import { EmptyStateComponent } from '../../../shared/components/empty-state/empt
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    ScrollingModule,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
-    IonList,
     IonFab,
     IonFabButton,
     IonIcon,
@@ -52,11 +52,13 @@ export class TaskListPage {
   private modalCtrl = inject(ModalController);
   private alertCtrl = inject(AlertController);
 
+  readonly itemSize = 72;
+
   constructor() {
     addIcons({ add, filterOutline, checkmarkCircle });
   }
 
-  trackByTask(_: number, task: Task): string {
+  trackById(_: number, task: Task): string {
     return task.id;
   }
 
