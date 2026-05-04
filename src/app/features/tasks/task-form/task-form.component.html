@@ -5,8 +5,8 @@
     </ion-buttons>
     <ion-title>{{ isEditing ? 'Editar tarea' : 'Nueva tarea' }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="solid" color="primary" [disabled]="form.invalid" (click)="save()">
-        Guardar
+      <ion-button fill="solid" color="primary" [disabled]="form.invalid || isSaving()" (click)="save()">
+        {{ isSaving() ? 'Guardando...' : 'Guardar' }}
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

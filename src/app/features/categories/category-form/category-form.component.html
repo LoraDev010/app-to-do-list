@@ -5,8 +5,8 @@
     </ion-buttons>
     <ion-title>{{ isEditing ? 'Editar categoría' : 'Nueva categoría' }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button fill="solid" color="primary" [disabled]="form.invalid" (click)="save()">
-        Guardar
+      <ion-button fill="solid" color="primary" [disabled]="form.invalid || isSaving()" (click)="save()">
+        {{ isSaving() ? 'Guardando...' : 'Guardar' }}
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -23,6 +23,9 @@
         (ionInput)="form.get('name')?.setValue($any($event).detail.value)"
       ></ion-input>
     </ion-item>
+    @if (form.get('name')?.errors?.['duplicate']) {
+      <p class="error-text">Ya existe una categoría con ese nombre.</p>
+    }
 
     <div class="color-section">
       <ion-label>Color</ion-label>

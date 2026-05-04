@@ -48,6 +48,7 @@ export class CategoryFormComponent implements OnInit {
 
   readonly presetColors = PRESET_COLORS;
   selectedColor = signal(PRESET_COLORS[0]);
+  isSaving = signal(false);
 
   form = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(1)]),
@@ -69,18 +70,27 @@ export class CategoryFormComponent implements OnInit {
   }
 
   async save(): Promise<void> {
-    if (this.form.invalid) return;
+    if (this.form.invalid || this.isSaving()) return;
 
     const name = this.form.value.name!;
-    const color = this.selectedColor();
-
-    if (this.category) {
-      await this.categoryService.update(this.category.id, name, color);
-    } else {
-      await this.categoryService.add(name, color);
+    if (this.categoryService.nameExists(name, this.category?.id)) {
+      this.form.get('name')?.setErrors({ duplicate: true });
+      return;
     }
 
-    await this.modalCtrl.dismiss(null, 'saved');
+    this.isSaving.set(true);
+    const color = this.selectedColor();
+
+    try {
+      if (this.category) {
+        await this.categoryService.update(this.category.id, name, color);
+      } else {
+        await this.categoryService.add(name, color);
+      }
+      await this.modalCtrl.dismiss(null, 'saved');
+    } finally {
+      this.isSaving.set(false);
+    }
   }
 
   dismiss(): void {

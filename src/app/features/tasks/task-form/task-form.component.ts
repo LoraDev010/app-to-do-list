@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject, signal, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   IonHeader,
@@ -48,6 +48,8 @@ export class TaskFormComponent implements OnInit {
   private taskService = inject(TaskService);
   private modalCtrl = inject(ModalController);
 
+  readonly isSaving = signal(false);
+
   readonly priorities = [
     { value: 'high', label: 'Alta' },
     { value: 'medium', label: 'Media' },
@@ -75,17 +77,21 @@ export class TaskFormComponent implements OnInit {
   }
 
   async save(): Promise<void> {
-    if (this.form.invalid) return;
+    if (this.form.invalid || this.isSaving()) return;
 
+    this.isSaving.set(true);
     const { title, categoryId, priority } = this.form.value;
 
-    if (this.task) {
-      await this.taskService.update(this.task.id, title!, categoryId ?? null, priority as any ?? null);
-    } else {
-      await this.taskService.add(title!, categoryId ?? null, priority as any ?? null);
+    try {
+      if (this.task) {
+        await this.taskService.update(this.task.id, title!, categoryId ?? null, priority as any ?? null);
+      } else {
+        await this.taskService.add(title!, categoryId ?? null, priority as any ?? null);
+      }
+      await this.modalCtrl.dismiss(null, 'saved');
+    } finally {
+      this.isSaving.set(false);
     }
-
-    await this.modalCtrl.dismiss(null, 'saved');
   }
 
   dismiss(): void {

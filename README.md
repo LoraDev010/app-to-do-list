@@ -2,6 +2,13 @@
 
 Aplicación de gestión de tareas con categorías, filtros y feature flags via Firebase Remote Config. Construida con Ionic 8 y Angular 20 usando standalone components.
 
+## Descarga
+
+| Plataforma | Enlace |
+|---|---|
+| Android (APK debug) | [Descargar v1.0.0](https://github.com/LoraDev010/app-to-do-list/releases/download/v1.0.0/todo-list-v1.0.0.apk) |
+| iOS (IPA) | Requiere macOS + Xcode — ver sección [Compilar para iOS](#compilar-para-ios-requiere-macos--xcode) |
+
 ---
 
 ## Tecnologías
@@ -13,7 +20,7 @@ Aplicación de gestión de tareas con categorías, filtros y feature flags via F
 | Cordova | latest | Build nativo Android/iOS |
 | @ionic/storage-angular | 4 | Persistencia local (SQLite en nativo, IndexedDB en web) |
 | Firebase | 12 | Remote Config para feature flags |
-| Angular CDK | 20 | Virtual scroll para listas largas |
+| Angular CDK | 20 | Utilidades de layout y accesibilidad |
 
 ---
 
@@ -25,6 +32,18 @@ Aplicación de gestión de tareas con categorías, filtros y feature flags via F
 - **Feature flag**: `enable_task_priority` — activa/desactiva campo de prioridad en tareas
 - **Persistencia**: todas las tareas y categorías se guardan localmente
 - **Dark mode**: soporte automático según preferencia del sistema
+
+---
+
+## Capturas de pantalla
+
+| Lista de tareas | Filtro por categoría |
+|---|---|
+| ![Lista de tareas](docs/screenshots/screenshot-tasks.png) | ![Filtro activo](docs/screenshots/screenshot-filter.png) |
+
+| Formulario de tarea | Selección de categoría | Lista de categorías |
+|---|---|---|
+| ![Formulario](docs/screenshots/screenshot-form.png) | ![Categorías en form](docs/screenshots/screenshot-form-categories.png) | ![Categorías](docs/screenshots/screenshot-categories.png) |
 
 ---
 
@@ -205,9 +224,9 @@ src/app/
 
 - **Standalone components**: sin NgModules, tree-shakeable, lazy loading por ruta
 - **Angular Signals**: estado reactivo síncrono, sin boilerplate de BehaviorSubject
-- **ChangeDetectionStrategy.OnPush**: re-renders solo cuando los inputs cambian
+- **ChangeDetectionStrategy.OnPush**: re-renders solo cuando los inputs o signals cambian
 - **@ionic/storage-angular**: abstrae SQLite (nativo) / IndexedDB (web) transparentemente
-- **Virtual scroll (CDK)**: renderiza solo los items visibles en pantalla, crítico para listas largas
+- **Arquitectura de capas**: StorageService → TaskService/CategoryService → Components. Cambiar la BD solo impacta StorageService
 - **Firebase Remote Config**: configuración del servidor sin redeploy de la app
 
 ---
@@ -228,10 +247,47 @@ Cuando se cambia el flag en Firebase Console y la app lo detecta (al iniciar o t
 
 ---
 
+## Preguntas técnicas de la evaluación
+
+### ¿Cuáles fueron los principales desafíos?
+
+1. **Incompatibilidad ModalController + Signal inputs**: `ModalController.create({ componentProps })` asigna props directamente a la instancia del componente, destruyendo las funciones signal. Solución: usar `@Input()` clásico en componentes abiertos via modal.
+
+2. **IonInput no propaga a FormControl**: En Ionic 8 + Angular 20, el `ControlValueAccessor` de `IonInput` no siempre propaga keystrokes al `FormControl`. Solución: manejador `(ionInput)` que sincroniza manualmente el valor.
+
+3. **APP_INITIALIZER vs token custom**: Al usar un token string `'APP_INIT'` Angular no ejecutaba la inicialización de Firebase antes del bootstrap. Solución: usar `APP_INITIALIZER` oficial de `@angular/core` con `multi: true`.
+
+### ¿Qué técnicas de optimización de rendimiento aplicaste y por qué?
+
+| Técnica | Implementación | Beneficio |
+|---|---|---|
+| **OnPush CD** | Todos los componentes | Angular solo re-renderiza cuando signals o inputs cambian |
+| **track en @for** | `@for (task of tasks; track task.id)` | Angular reutiliza DOM existente, solo actualiza lo que cambió |
+| **Signals + computed()** | `signal<Task[]>([])`, `computed()` | Actualizaciones granulares sin Zone.js overhead |
+| **Lazy Loading** | `loadComponent: () => import(...)` | Bundle inicial pequeño, carga rutas bajo demanda |
+| **PreloadAllModules** | `withPreloading(PreloadAllModules)` | Precarga rutas en background tras carga inicial |
+| **Inmutabilidad** | `_tasks.update(list => [...list, new])` | OnPush detecta cambios por referencia, no por valor |
+
+### ¿Cómo aseguraste la calidad y mantenibilidad del código?
+
+1. **Separación de responsabilidades**: Services manejan estado y persistencia. Components solo presentan datos. Sin lógica de negocio en templates.
+
+2. **Modelos tipados**: Interfaces `Task` y `Category` con TypeScript strict. El compilador detecta errores antes de runtime.
+
+3. **Servicios singleton** (`providedIn: 'root'`): Una única instancia compartida. Sin riesgo de estados desincronizados entre componentes.
+
+4. **Manejo de errores con rollback**: Cada operación async guarda el estado previo. Si falla, revierte el signal y muestra un `IonToast` al usuario.
+
+5. **Feature flags**: `enable_task_priority` en Firebase Remote Config permite activar funcionalidad sin redeploy, reduciendo riesgo en releases.
+
+6. **Arquitectura de capas**: `StorageService` → `TaskService/CategoryService` → Components. Si cambia la BD, solo se modifica `StorageService`.
+
+---
+
 ## Rama de desarrollo
 
 ```
-feature/todo-app-implementation
+clean-history
 ```
 
 El commit inicial incluye la estructura base completa del proyecto.
